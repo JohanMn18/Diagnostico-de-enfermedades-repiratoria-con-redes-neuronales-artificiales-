@@ -1,0 +1,126 @@
+-- MySQL Administrator dump 1.4
+--
+-- ------------------------------------------------------
+-- Server version	5.5.5-10.4.28-MariaDB
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8 */;
+
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+
+
+--
+-- Create schema proyectorn
+--
+
+CREATE DATABASE /*!32312 IF NOT EXISTS*/ proyectorn;
+USE proyectorn;
+
+--
+-- Table structure for table `proyectorn`.`historia_clinica`
+--
+
+DROP TABLE IF EXISTS `historia_clinica`;
+CREATE TABLE `historia_clinica` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id_paciente` int(11) NOT NULL,
+  `id_usuario` int(11) NOT NULL,
+  `fecha_atencion` date NOT NULL,
+  `Diagnostico` varchar(100) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `id_paciente` (`id_paciente`),
+  KEY `id_usuario` (`id_usuario`),
+  CONSTRAINT `historia_clinica_ibfk_1` FOREIGN KEY (`id_usuario`) REFERENCES `usuarios` (`id`),
+  CONSTRAINT `historia_clinica_ibfk_2` FOREIGN KEY (`id_paciente`) REFERENCES `paciente` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `proyectorn`.`historia_clinica`
+--
+
+/*!40000 ALTER TABLE `historia_clinica` DISABLE KEYS */;
+/*!40000 ALTER TABLE `historia_clinica` ENABLE KEYS */;
+
+
+--
+-- Table structure for table `proyectorn`.`paciente`
+--
+
+DROP TABLE IF EXISTS `paciente`;
+CREATE TABLE `paciente` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `nombre` varchar(100) NOT NULL,
+  `apellido` varchar(100) NOT NULL,
+  `DNI` int(8) NOT NULL,
+  `cel` int(9) NOT NULL,
+  `direccion` varchar(150) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `proyectorn`.`paciente`
+--
+
+/*!40000 ALTER TABLE `paciente` DISABLE KEYS */;
+/*!40000 ALTER TABLE `paciente` ENABLE KEYS */;
+
+
+--
+-- Table structure for table `proyectorn`.`roles`
+--
+
+DROP TABLE IF EXISTS `roles`;
+CREATE TABLE `roles` (
+  `id_rol` int(11) NOT NULL AUTO_INCREMENT,
+  `descripcion` varchar(30) NOT NULL,
+  PRIMARY KEY (`id_rol`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `proyectorn`.`roles`
+--
+
+/*!40000 ALTER TABLE `roles` DISABLE KEYS */;
+INSERT INTO `roles` (`id_rol`,`descripcion`) VALUES 
+ (1,'admin'),
+ (2,'usuario');
+/*!40000 ALTER TABLE `roles` ENABLE KEYS */;
+
+
+--
+-- Table structure for table `proyectorn`.`usuarios`
+--
+
+DROP TABLE IF EXISTS `usuarios`;
+CREATE TABLE `usuarios` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `correo` varchar(100) NOT NULL,
+  `password` varchar(100) NOT NULL,
+  `id_rol` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `id_rol` (`id_rol`),
+  CONSTRAINT `usuarios_ibfk_1` FOREIGN KEY (`id_rol`) REFERENCES `roles` (`id_rol`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `proyectorn`.`usuarios`
+--
+
+/*!40000 ALTER TABLE `usuarios` DISABLE KEYS */;
+INSERT INTO `usuarios` (`id`,`correo`,`password`,`id_rol`) VALUES 
+ (2,'johanpromn@gmail.com','123456',1),
+ (3,'jorge@gmail.com','jorge123',2);
+/*!40000 ALTER TABLE `usuarios` ENABLE KEYS */;
+
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
